@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +15,20 @@ import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
 
 import com.pratamawijaya.newsapimvvm.R
+import com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem.ArticleItem
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Section
+import com.xwray.groupie.ViewHolder
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.top_headline_fragment.*
 import javax.inject.Inject
 
 class TopHeadlineFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val groupAdapter = GroupAdapter<ViewHolder>()
 
     companion object {
         fun newInstance() = TopHeadlineFragment()
@@ -50,6 +58,16 @@ class TopHeadlineFragment : Fragment() {
         } ?: viewModel.updateTopHeadlines()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        rvTopHeadline.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = groupAdapter
+        }
+
+    }
+
     private fun observeViewModel() {
         viewModel.topHeadlineState.observe(this, stateObserver)
     }
@@ -61,6 +79,11 @@ class TopHeadlineFragment : Fragment() {
             is DefaultState -> {
                 state.data.map {
                     d { "title ${it.title}" }
+
+                    Section().apply {
+                        add(ArticleItem(it))
+                        groupAdapter.add(this)
+                    }
                 }
             }
         // show error
