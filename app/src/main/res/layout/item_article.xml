@@ -47,6 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
         <TextView
+            android:id="@+id/tvPublishedAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -56,6 +57,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDesc" />
+
+        <TextView
+            android:id="@+id/tvSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/open_sans_light_italic"
+            app:layout_constraintLeft_toRightOf="@id/tvPublishedAt"
+            app:layout_constraintTop_toBottomOf="@id/tvDesc"
+            tools:text="arschtecnica.com" />
 
         <ImageView
             android:id="@+id/btnShare"

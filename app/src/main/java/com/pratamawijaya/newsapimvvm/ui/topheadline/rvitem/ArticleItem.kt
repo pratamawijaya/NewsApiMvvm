@@ -12,6 +12,7 @@ class ArticleItem(private val article: Article) : Item() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.tvTitle.text = article.title
         viewHolder.itemView.tvDesc.text = article.description
+        viewHolder.itemView.tvSource.text = article.source.name
 
         if (article.urlToImage.isNotBlank()) {
             GlideApp.with(viewHolder.itemView.context)
