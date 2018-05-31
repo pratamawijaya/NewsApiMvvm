@@ -9,10 +9,10 @@ interface NewsApiServices {
     /**
      * return 20 top news headline
      */
-    @GET("/v2/top-headlines")
+    @GET("top-headlines")
     fun getTopHeadlines(): Observable<TopHeadlineResponse>
 
-    @GET("/v2/everything")
+    @GET("everything")
     fun getEverything()
 
 }

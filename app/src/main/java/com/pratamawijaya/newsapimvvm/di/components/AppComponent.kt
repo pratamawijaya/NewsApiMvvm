@@ -6,6 +6,7 @@ import com.pratamawijaya.newsapimvvm.di.module.AppModule
 import com.pratamawijaya.newsapimvvm.di.module.NetworkModule
 import com.pratamawijaya.newsapimvvm.di.module.RepositoryModule
 import com.pratamawijaya.newsapimvvm.di.module.ViewModelModule
+import com.pratamawijaya.newsapimvvm.ui.main.MainActivityModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -17,7 +18,8 @@ import javax.inject.Singleton
         AppModule::class,
         NetworkModule::class,
         RepositoryModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        MainActivityModule::class
         // etc ... activity module
 ))
 interface AppComponent {
