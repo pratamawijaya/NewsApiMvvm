@@ -10,14 +10,14 @@ import io.reactivex.Observable
 class NewsRepositoryImpl constructor(private val service: NewsApiServices) : NewsRepository {
 
     override fun getTopHeadlines(): Observable<List<Article>> {
-        return service.getTopHeadlines()
+        return service.getTopHeadlines(country = "us", category = "technology")
                 .flatMap { Observable.fromIterable(it.articles) }
                 .map { articleMapper(it) }
                 .toList().toObservable()
     }
 
     private fun sourceMapper(sourceModel: SourceModel) = Source(
-            id = sourceModel.id,
+            id = sourceModel.id ?: "",
             name = sourceModel.name
     )
 
@@ -25,8 +25,8 @@ class NewsRepositoryImpl constructor(private val service: NewsApiServices) : New
             title = it.title,
             url = it.url,
             publishedAt = it.publishedAt,
-            author = it.author,
-            description = it.description,
+            author = it.author ?: "",
+            description = it.description ?: "",
             source = sourceMapper(it.source),
-            urlToImage = it.urlToImage)
+            urlToImage = it.urlToImage ?: "")
 }

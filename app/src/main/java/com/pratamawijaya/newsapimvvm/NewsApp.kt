@@ -6,6 +6,7 @@ import com.pratamawijaya.newsapimvvm.di.components.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import timber.log.Timber
 import javax.inject.Inject
 
 class NewsApp : Application(), HasActivityInjector {
@@ -20,5 +21,7 @@ class NewsApp : Application(), HasActivityInjector {
     override fun onCreate() {
         super.onCreate()
         DaggerAppComponent.builder().application(this).build().inject(this)
+
+        Timber.plant(Timber.DebugTree())
     }
 }

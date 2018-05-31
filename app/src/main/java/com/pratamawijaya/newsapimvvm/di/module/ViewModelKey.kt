@@ -1,6 +1,7 @@
 package com.pratamawijaya.newsapimvvm.di.module
 
 import android.arch.lifecycle.ViewModel
+import com.pratamawijaya.newsapimvvm.ui.topheadline.TopHeadlineViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -14,9 +15,8 @@ internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
 @Module
 abstract class ViewModelModule {
-
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(NewsListViewModel::class)
-//    abstract fun bindCryptoListViewModel(viewModel: NewsListViewModel) : ViewModel
+    @Binds
+    @IntoMap
+    @ViewModelKey(TopHeadlineViewModel::class)
+    abstract fun bindCryptoListViewModel(viewModel: TopHeadlineViewModel): ViewModel
 }

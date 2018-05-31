@@ -2,10 +2,7 @@ package com.pratamawijaya.newsapimvvm.di.components
 
 import android.app.Application
 import com.pratamawijaya.newsapimvvm.NewsApp
-import com.pratamawijaya.newsapimvvm.di.module.AppModule
-import com.pratamawijaya.newsapimvvm.di.module.NetworkModule
-import com.pratamawijaya.newsapimvvm.di.module.RepositoryModule
-import com.pratamawijaya.newsapimvvm.di.module.ViewModelModule
+import com.pratamawijaya.newsapimvvm.di.module.*
 import com.pratamawijaya.newsapimvvm.ui.main.MainActivityModule
 import dagger.BindsInstance
 import dagger.Component
@@ -18,6 +15,7 @@ import javax.inject.Singleton
         AppModule::class,
         NetworkModule::class,
         RepositoryModule::class,
+        ViewModelFactoryModule::class,
         ViewModelModule::class,
         MainActivityModule::class
         // etc ... activity module
