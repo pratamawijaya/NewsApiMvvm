@@ -1,12 +1,14 @@
 package com.pratamawijaya.newsapimvvm.data.model
 
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 
 @Entity(
-        tableName = "ARTICLE",
-        primaryKeys = ["url"]
+        tableName = "ARTICLE"
 )
 data class ArticleTable(
+        @PrimaryKey(autoGenerate = true)
+        var uid: Int = 0,
         val title: String,
         val author: String,
         val sourceId: String,
