@@ -17,5 +17,5 @@ interface ArticleDao {
     fun insertAll(article: List<ArticleTable>)
 
     @Query("SELECT * FROM ARTICLE")
-    fun getArticle(): Single<List<ArticleTable>>
+    fun getArticles(): Single<List<ArticleTable>>
 }

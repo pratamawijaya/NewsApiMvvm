@@ -23,7 +23,7 @@ class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository)
     }
 
     private fun getTopHeadlines() {
-        compositeDisposable.add(repo.getTopHeadlines()
+        compositeDisposable.add(repo.getTopHeadlines(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onArticleReceived, this::onError))
