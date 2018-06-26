@@ -24,6 +24,13 @@ class NewsRepositoryImpl constructor(private val service: NewsApiServices,
 //
 //    }
 
+    override fun getEverything(query: String): Observable<List<Article>> {
+        return service.getEverything(query, "publishedAt")
+                .flatMapIterable { it.articles }
+                .map { articleMapper(it) }
+                .toList().toObservable()
+    }
+
     override fun getTopHeadlines(): Observable<List<Article>> {
         return service.getTopHeadlines(country = "us", category = "technology")
                 .flatMap { Observable.fromIterable(it.articles) }

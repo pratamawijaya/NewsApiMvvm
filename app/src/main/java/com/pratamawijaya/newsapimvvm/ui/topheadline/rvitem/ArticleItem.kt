@@ -13,6 +13,7 @@ class ArticleItem(private val article: Article) : Item() {
         viewHolder.itemView.tvTitle.text = article.title
         viewHolder.itemView.tvDesc.text = article.description
         viewHolder.itemView.tvSource.text = article.source.name
+        viewHolder.itemView.tvPublishedAt.text = article.publishedAt
 
         if (article.urlToImage.isNotBlank()) {
             GlideApp.with(viewHolder.itemView.context)

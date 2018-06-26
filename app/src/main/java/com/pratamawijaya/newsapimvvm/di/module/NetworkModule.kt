@@ -34,11 +34,10 @@ class NetworkModule {
         }
         return OkHttpClient.Builder()
                 .addInterceptor(logging)
-//                .addNetworkInterceptor(StethoInterceptor())
-                .addInterceptor({ chain ->
+                .addInterceptor { chain ->
                     val request = chain.request().newBuilder().addHeader("X-Api-Key", API_KEY).build()
                     chain.proceed(request)
-                })
+                }
                 .build()
     }
 }

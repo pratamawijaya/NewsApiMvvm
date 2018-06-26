@@ -1,6 +1,7 @@
 package com.pratamawijaya.newsapimvvm.data
 
 import com.pratamawijaya.newsapimvvm.data.response.TopHeadlineResponse
+import com.pratamawijaya.newsapimvvm.entity.Article
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,6 +17,6 @@ interface NewsApiServices {
     ): Observable<TopHeadlineResponse>
 
     @GET("everything")
-    fun getEverything()
+    fun getEverything(@Query("q") query: String, @Query("sortBy") sortBy: String): Observable<TopHeadlineResponse>
 
 }
