@@ -2,7 +2,7 @@ package com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem
 
 import com.pratamawijaya.newsapimvvm.R
 import com.pratamawijaya.newsapimvvm.di.module.GlideApp
-import com.pratamawijaya.newsapimvvm.entity.Article
+import com.pratamawijaya.newsapimvvm.domain.Article
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.item_article.view.*

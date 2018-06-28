@@ -1,6 +1,6 @@
 package com.pratamawijaya.newsapimvvm.ui.topheadline
 
-import com.pratamawijaya.newsapimvvm.entity.Article
+import com.pratamawijaya.newsapimvvm.domain.Article
 
 sealed class TopHeadlineState {
     abstract val data: List<Article>

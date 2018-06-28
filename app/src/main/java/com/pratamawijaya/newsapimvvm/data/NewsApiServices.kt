@@ -1,8 +1,7 @@
 package com.pratamawijaya.newsapimvvm.data
 
 import com.pratamawijaya.newsapimvvm.data.response.TopHeadlineResponse
-import com.pratamawijaya.newsapimvvm.entity.Article
-import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,9 +13,9 @@ interface NewsApiServices {
     @GET("top-headlines")
     fun getTopHeadlines(@Query("country") country: String,
                         @Query("category") category: String
-    ): Observable<TopHeadlineResponse>
+    ): Single<TopHeadlineResponse>
 
     @GET("everything")
-    fun getEverything(@Query("q") query: String, @Query("sortBy") sortBy: String): Observable<TopHeadlineResponse>
+    fun getEverything(@Query("q") query: String, @Query("sortBy") sortBy: String): Single<TopHeadlineResponse>
 
 }

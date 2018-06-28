@@ -1,54 +1,29 @@
 package com.pratamawijaya.newsapimvvm.data.repository
 
 import com.pratamawijaya.newsapimvvm.data.NewsApiServices
-import com.pratamawijaya.newsapimvvm.data.db.NewsAppDb
-import com.pratamawijaya.newsapimvvm.data.model.ArticleModel
-import com.pratamawijaya.newsapimvvm.data.model.SourceModel
-import com.pratamawijaya.newsapimvvm.entity.Article
-import com.pratamawijaya.newsapimvvm.entity.Source
-import io.reactivex.Observable
+import com.pratamawijaya.newsapimvvm.data.db.ArticleDao
+import com.pratamawijaya.newsapimvvm.data.mapper.ArticleMapper
+import com.pratamawijaya.newsapimvvm.domain.Article
+import io.reactivex.Single
+import javax.inject.Inject
 
-class NewsRepositoryImpl constructor(private val service: NewsApiServices,
-                                     private val newsDb: NewsAppDb) : NewsRepository {
+class NewsRepositoryImpl @Inject constructor(private val service: NewsApiServices,
+                                             private val articleDao: ArticleDao,
+                                             private val mapper: ArticleMapper) : NewsRepository {
 
-//    val fetcher = Fetcher<List<ArticleModel>, String> { anu -> service.getEverything() }
-
-//    val persister = object {
-//        override fun read(key: String): Observable<List<ArticleTable>> {
-//            return newsDb.articleDao().getArticle().toObservable()
-//        }
-//
-//        override fun write(key: String, raw: ArticleTable) {
-//            newsDb.articleDao().insert(raw)
-//        }
-//
-//    }
-
-    override fun getEverything(query: String): Observable<List<Article>> {
+    override fun getEverything(query: String): Single<List<Article>> {
         return service.getEverything(query, "publishedAt")
+                .toObservable()
                 .flatMapIterable { it.articles }
-                .map { articleMapper(it) }
-                .toList().toObservable()
+                .map { mapper.mapFromEntity(it) }
+                .toList()
     }
 
-    override fun getTopHeadlines(): Observable<List<Article>> {
+    override fun getTopHeadlines(): Single<List<Article>> {
         return service.getTopHeadlines(country = "us", category = "technology")
-                .flatMap { Observable.fromIterable(it.articles) }
-                .map { articleMapper(it) }
-                .toList().toObservable()
+                .toObservable()
+                .flatMapIterable { it.articles }
+                .map { mapper.mapFromEntity(it) }
+                .toList()
     }
-
-    private fun sourceMapper(sourceModel: SourceModel) = Source(
-            id = sourceModel.id ?: "",
-            name = sourceModel.name
-    )
-
-    private fun articleMapper(it: ArticleModel) = Article(
-            title = it.title,
-            url = it.url,
-            publishedAt = it.publishedAt,
-            author = it.author ?: "",
-            description = it.description ?: "",
-            source = sourceMapper(it.source),
-            urlToImage = it.urlToImage ?: "")
 }

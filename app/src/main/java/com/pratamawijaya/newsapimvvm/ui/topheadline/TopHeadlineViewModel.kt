@@ -2,7 +2,7 @@ package com.pratamawijaya.newsapimvvm.ui.topheadline
 
 import android.arch.lifecycle.*
 import com.pratamawijaya.newsapimvvm.data.repository.NewsRepository
-import com.pratamawijaya.newsapimvvm.entity.Article
+import com.pratamawijaya.newsapimvvm.domain.Article
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -23,7 +23,7 @@ class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository)
     }
 
     private fun getTopHeadlines() {
-        compositeDisposable.add(repo.getEverything("bitcoin")
+        compositeDisposable.add(repo.getTopHeadlines()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onArticleReceived, this::onError))

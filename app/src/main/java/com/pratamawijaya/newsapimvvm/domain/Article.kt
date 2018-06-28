@@ -1,4 +1,4 @@
-package com.pratamawijaya.newsapimvvm.entity
+package com.pratamawijaya.newsapimvvm.domain
 
 data class Article(
         val source: Source,
