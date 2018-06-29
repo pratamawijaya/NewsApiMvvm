@@ -21,6 +21,15 @@ android {
     }
 }
 
+detekt {
+    version = "1.0.0.RC7-3"
+    profile("main") {
+        input = "$projectDir/src/main/java"
+        config = "$rootDir/detekt.yml"
+        filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
+    }
+}
+
 dependencies {
 
     def room_version = "1.1.0"

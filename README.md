@@ -8,3 +8,7 @@ its my repo for learn how to use mvvm architecture
 # TODO
 - [ ] implement Store https://github.com/NYTimes/Store
 - [ ] implement searchview
+
+# Static analysis
+
+`./gradlew detektCheck`
