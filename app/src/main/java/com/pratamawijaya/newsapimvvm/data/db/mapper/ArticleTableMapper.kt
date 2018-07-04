@@ -5,7 +5,7 @@ import com.pratamawijaya.newsapimvvm.domain.Article
 import com.pratamawijaya.newsapimvvm.domain.Source
 import javax.inject.Inject
 
-class ArticleTableMapper @Inject constructor() : DbMapper<ArticleTable, Article> {
+open class ArticleTableMapper @Inject constructor() : DbMapper<ArticleTable, Article> {
     override fun mapFromDB(table: ArticleTable): Article {
         return Article(
                 source = Source(table.sourceId, table.sourceName),
