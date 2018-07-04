@@ -15,12 +15,15 @@ import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
 
 import com.pratamawijaya.newsapimvvm.R
+import com.pratamawijaya.newsapimvvm.ui.entity.event.SearchArticleEvent
 import com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem.ArticleItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.top_headline_fragment.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 class TopHeadlineFragment : Fragment() {
@@ -66,6 +69,26 @@ class TopHeadlineFragment : Fragment() {
             adapter = groupAdapter
         }
 
+    }
+
+    @Subscribe
+    fun onSearchArticleSubmitted(event: SearchArticleEvent) {
+        viewModel.searchArticle(event.query)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
     private fun observeViewModel() {

@@ -1,6 +1,7 @@
 package com.pratamawijaya.newsapimvvm.ui.topheadline
 
 import android.arch.lifecycle.*
+import com.github.ajalt.timberkt.d
 import com.pratamawijaya.newsapimvvm.data.repository.NewsRepository
 import com.pratamawijaya.newsapimvvm.domain.Article
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,6 +30,24 @@ class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository)
                 .subscribe(this::onArticleReceived, this::onError))
     }
 
+    /**
+     * search article
+     */
+    fun searchArticle(query: String) {
+        d { "search $query" }
+        // set state to loading
+        topHeadlineState.value = LoadingState(emptyList())
+
+        compositeDisposable.add(repo.getEverything(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSearchReceived, this::onError))
+    }
+
+    private fun onSearchReceived(articles: List<Article>) {
+        topHeadlineState.value = DefaultState(articles)
+    }
+
     private fun onArticleReceived(articles: List<Article>) {
         val currentArticles = obtainCurrentData().toMutableList()
         currentArticles.addAll(articles)
@@ -49,4 +68,6 @@ class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository)
     fun restoreTopHeadlines() {
         topHeadlineState.value = DefaultState(obtainCurrentData())
     }
+
+
 }
