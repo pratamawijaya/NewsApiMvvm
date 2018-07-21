@@ -3,7 +3,6 @@ package com.pratamawijaya.newsapimvvm.di.components
 import android.app.Application
 import com.pratamawijaya.newsapimvvm.NewsApp
 import com.pratamawijaya.newsapimvvm.di.module.*
-import com.pratamawijaya.newsapimvvm.ui.main.MainActivityModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -17,7 +16,7 @@ import javax.inject.Singleton
         RepositoryModule::class,
         ViewModelFactoryModule::class,
         ViewModelModule::class,
-        MainActivityModule::class
+        ActivityBuilderModule::class
         // etc ... activity module
 ))
 interface AppComponent {
