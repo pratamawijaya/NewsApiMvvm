@@ -11,12 +11,14 @@ import android.widget.Toast
 import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
 import com.pratamawijaya.newsapimvvm.R
+import com.pratamawijaya.newsapimvvm.domain.Article
 import com.pratamawijaya.newsapimvvm.shared.toGone
 import com.pratamawijaya.newsapimvvm.shared.toVisible
+import com.pratamawijaya.newsapimvvm.shared.toast
 import com.pratamawijaya.newsapimvvm.ui.entity.event.SearchArticleEvent
 import com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem.ArticleItem
+import com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem.ArticleItemListener
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.top_headline_fragment.loading
 import kotlinx.android.synthetic.main.top_headline_fragment.rvTopHeadline
@@ -24,8 +26,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.koin.android.ext.android.inject
 
-class TopHeadlineFragment : Fragment() {
-
+class TopHeadlineFragment : Fragment(), ArticleItemListener {
     private val groupAdapter = GroupAdapter<ViewHolder>()
 
     companion object {
@@ -83,6 +84,10 @@ class TopHeadlineFragment : Fragment() {
         viewModel.topHeadlineState.observe(this, stateObserver)
     }
 
+    override fun onArticleSelected(article: Article) {
+        toast("${article.title} selected")
+    }
+
     // state observer, switching for show data or show error
     private val stateObserver = Observer<TopHeadlineState> { state ->
         when (state) {
@@ -90,13 +95,12 @@ class TopHeadlineFragment : Fragment() {
             is ArticleLoadedState -> {
                 rvTopHeadline.toVisible()
                 loading.toGone()
+
+                if (groupAdapter.itemCount > 0) groupAdapter.clear()
+
                 state.articles.map {
                     d { "title ${it.title}" }
-
-                    Section().apply {
-                        add(ArticleItem(it))
-                        groupAdapter.add(this)
-                    }
+                    groupAdapter.add(ArticleItem(it, this))
                 }
             }
 
