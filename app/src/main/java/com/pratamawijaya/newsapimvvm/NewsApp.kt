@@ -1,26 +1,16 @@
 package com.pratamawijaya.newsapimvvm
 
-import android.app.Activity
 import android.app.Application
-import com.pratamawijaya.newsapimvvm.di.components.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import com.pratamawijaya.newsapimvvm.di.appModule
+import org.koin.android.ext.android.startKoin
 import timber.log.Timber
-import javax.inject.Inject
 
-class NewsApp : Application(), HasActivityInjector {
-
-
-    @Inject
-    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
-
-
-    override fun activityInjector(): AndroidInjector<Activity> = dispatchingActivityInjector
+class NewsApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerAppComponent.builder().application(this).build().inject(this)
+
+        startKoin(this, listOf(appModule))
 
         Timber.plant(Timber.DebugTree())
     }

@@ -1,9 +1,6 @@
 package com.pratamawijaya.newsapimvvm.ui.topheadline
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -21,17 +18,13 @@ import com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem.ArticleItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.top_headline_fragment.loading
 import kotlinx.android.synthetic.main.top_headline_fragment.rvTopHeadline
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class TopHeadlineFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val groupAdapter = GroupAdapter<ViewHolder>()
 
@@ -39,12 +32,7 @@ class TopHeadlineFragment : Fragment() {
         fun newInstance() = TopHeadlineFragment()
     }
 
-    private lateinit var viewModel: TopHeadlineViewModel
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
+    private val viewModel: TopHeadlineViewModel by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,8 +41,6 @@ class TopHeadlineFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TopHeadlineViewModel::class.java)
 
         observeViewModel()
 
