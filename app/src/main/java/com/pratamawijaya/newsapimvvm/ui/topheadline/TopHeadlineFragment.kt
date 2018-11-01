@@ -13,15 +13,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
-
 import com.pratamawijaya.newsapimvvm.R
+import com.pratamawijaya.newsapimvvm.shared.toGone
+import com.pratamawijaya.newsapimvvm.shared.toVisible
 import com.pratamawijaya.newsapimvvm.ui.entity.event.SearchArticleEvent
 import com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem.ArticleItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.top_headline_fragment.*
+import kotlinx.android.synthetic.main.top_headline_fragment.loading
+import kotlinx.android.synthetic.main.top_headline_fragment.rvTopHeadline
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
@@ -98,9 +100,11 @@ class TopHeadlineFragment : Fragment() {
     // state observer, switching for show data or show error
     private val stateObserver = Observer<TopHeadlineState> { state ->
         when (state) {
-        // show data
-            is DefaultState -> {
-                state.data.map {
+
+            is ArticleLoadedState -> {
+                rvTopHeadline.toVisible()
+                loading.toGone()
+                state.articles.map {
                     d { "title ${it.title}" }
 
                     Section().apply {
@@ -109,7 +113,14 @@ class TopHeadlineFragment : Fragment() {
                     }
                 }
             }
-        // show error
+
+            is LoadingState -> {
+                // show Loading
+                loading.toVisible()
+                rvTopHeadline.toGone()
+            }
+
+            // show error
             is ErrorState -> {
                 e { "error ${state.errorMessage}" }
                 Toast.makeText(activity, "error ${state.errorMessage}", Toast.LENGTH_SHORT).show()
