@@ -1,9 +1,6 @@
 package com.pratamawijaya.newsapimvvm.ui.topheadline
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -14,37 +11,29 @@ import android.widget.Toast
 import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
 import com.pratamawijaya.newsapimvvm.R
+import com.pratamawijaya.newsapimvvm.domain.Article
 import com.pratamawijaya.newsapimvvm.shared.toGone
 import com.pratamawijaya.newsapimvvm.shared.toVisible
+import com.pratamawijaya.newsapimvvm.shared.toast
 import com.pratamawijaya.newsapimvvm.ui.entity.event.SearchArticleEvent
 import com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem.ArticleItem
+import com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem.ArticleItemListener
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.top_headline_fragment.loading
 import kotlinx.android.synthetic.main.top_headline_fragment.rvTopHeadline
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
-class TopHeadlineFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
+class TopHeadlineFragment : Fragment(), ArticleItemListener {
     private val groupAdapter = GroupAdapter<ViewHolder>()
 
     companion object {
         fun newInstance() = TopHeadlineFragment()
     }
 
-    private lateinit var viewModel: TopHeadlineViewModel
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
+    private val viewModel: TopHeadlineViewModel by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,8 +42,6 @@ class TopHeadlineFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TopHeadlineViewModel::class.java)
 
         observeViewModel()
 
@@ -97,6 +84,10 @@ class TopHeadlineFragment : Fragment() {
         viewModel.topHeadlineState.observe(this, stateObserver)
     }
 
+    override fun onArticleSelected(article: Article) {
+        toast("${article.title} selected")
+    }
+
     // state observer, switching for show data or show error
     private val stateObserver = Observer<TopHeadlineState> { state ->
         when (state) {
@@ -104,13 +95,12 @@ class TopHeadlineFragment : Fragment() {
             is ArticleLoadedState -> {
                 rvTopHeadline.toVisible()
                 loading.toGone()
+
+                if (groupAdapter.itemCount > 0) groupAdapter.clear()
+
                 state.articles.map {
                     d { "title ${it.title}" }
-
-                    Section().apply {
-                        add(ArticleItem(it))
-                        groupAdapter.add(this)
-                    }
+                    groupAdapter.add(ArticleItem(it, this))
                 }
             }
 
