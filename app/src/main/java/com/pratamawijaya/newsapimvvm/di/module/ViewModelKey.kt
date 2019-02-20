@@ -18,5 +18,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(TopHeadlineViewModel::class)
-    abstract fun bindCryptoListViewModel(viewModel: TopHeadlineViewModel): ViewModel
+    abstract fun bindTopHeadlineViewModel(viewModel: TopHeadlineViewModel): ViewModel
 }
