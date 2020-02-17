@@ -1,7 +1,7 @@
 package com.pratamawijaya.newsapimvvm.data.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.pratamawijaya.newsapimvvm.data.model.ArticleTable
 
 @Database(

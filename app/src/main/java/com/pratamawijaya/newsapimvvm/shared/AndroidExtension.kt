@@ -1,8 +1,8 @@
 package com.pratamawijaya.newsapimvvm.shared
 
-import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 
 fun View.toGone() {
     this.visibility = View.GONE

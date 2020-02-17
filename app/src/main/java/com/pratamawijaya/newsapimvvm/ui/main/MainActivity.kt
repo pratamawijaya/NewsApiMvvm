@@ -1,9 +1,9 @@
 package com.pratamawijaya.newsapimvvm.ui.main
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.SearchView
 import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import com.pratamawijaya.newsapimvvm.R
 import com.pratamawijaya.newsapimvvm.ui.entity.event.SearchArticleEvent
 import com.pratamawijaya.newsapimvvm.ui.topheadline.TopHeadlineFragment

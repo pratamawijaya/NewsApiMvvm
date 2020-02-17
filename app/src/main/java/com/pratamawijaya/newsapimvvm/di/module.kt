@@ -1,6 +1,6 @@
 package com.pratamawijaya.newsapimvvm.di
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.google.gson.GsonBuilder
 import com.pratamawijaya.newsapimvvm.data.NewsApiServices
 import com.pratamawijaya.newsapimvvm.data.db.NewsAppDb
