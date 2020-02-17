@@ -25,10 +25,11 @@ val appModule = module {
     // db
     single { Room.databaseBuilder(androidContext(), NewsAppDb::class.java, "newsapi.db").build() }
     single { get<NewsAppDb>().articleDao() }
+    single { get<NewsAppDb>().stringKeyValueDao()}
     // mapper
     single { ArticleMapper() }
     single { ArticleTableMapper() }
-    single { NewsRepositoryImpl(get(), get(), get(), get()) as NewsRepository }
+    single { NewsRepositoryImpl(get(), get(), get(), get(),get()) as NewsRepository }
     viewModel { TopHeadlineViewModel(get()) }
 }
 

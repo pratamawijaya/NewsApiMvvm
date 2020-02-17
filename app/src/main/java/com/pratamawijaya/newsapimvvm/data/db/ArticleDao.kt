@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.pratamawijaya.newsapimvvm.data.model.ArticleTable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
@@ -14,5 +15,5 @@ interface ArticleDao {
     fun insert(article: ArticleTable)
 
     @Query("SELECT * FROM ARTICLE")
-    fun getArticle(): Single<List<ArticleTable>>
+    fun getArticle(): List<ArticleTable>
 }

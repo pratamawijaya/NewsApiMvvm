@@ -2,8 +2,9 @@ package com.pratamawijaya.newsapimvvm.data.repository
 
 import com.pratamawijaya.newsapimvvm.domain.Article
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    fun getTopHeadlines(): Single<List<Article>>
+    suspend fun getTopHeadlines(): Flow<List<Article>>
     fun getEverything(query: String): Single<List<Article>>
 }

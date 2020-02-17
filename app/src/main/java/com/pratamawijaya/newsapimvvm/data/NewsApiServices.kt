@@ -11,9 +11,8 @@ interface NewsApiServices {
      * return 20 top news headline
      */
     @GET("top-headlines")
-    fun getTopHeadlines(@Query("country") country: String,
-                        @Query("category") category: String
-    ): Single<TopHeadlineResponse>
+    suspend fun getTopHeadlines(@Query("country") country: String,
+                                @Query("category") category: String): TopHeadlineResponse
 
     @GET("everything")
     fun getEverything(@Query("q") query: String, @Query("sortBy") sortBy: String): Single<TopHeadlineResponse>
