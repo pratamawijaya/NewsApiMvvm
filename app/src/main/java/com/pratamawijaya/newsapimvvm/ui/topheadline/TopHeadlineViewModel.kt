@@ -10,17 +10,15 @@ import com.pratamawijaya.newsapimvvm.domain.Article
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-sealed class TopHeadlineState
+sealed class TopHeadlineState {
+    object EmptyState : TopHeadlineState()
+    data class ArticleLoadedState(val articles: List<Article>) : TopHeadlineState()
+    object LoadingState : TopHeadlineState()
+    data class ErrorState(val errorMessage: String) : TopHeadlineState()
+}
 
-object DefaultState : TopHeadlineState()
-data class ArticleLoadedState(val articles: List<Article>) : TopHeadlineState()
-object LoadingState : TopHeadlineState()
-data class ErrorState(val errorMessage: String) : TopHeadlineState()
-
-
-class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository) : ViewModel() {
+class TopHeadlineViewModel constructor(private val repo: NewsRepository) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -28,7 +26,7 @@ class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository)
     var currentArticle: MutableList<Article> = mutableListOf()
 
     init {
-        topHeadlineState.value = DefaultState
+        topHeadlineState.value = TopHeadlineState.EmptyState
     }
 
     fun updateTopHeadlines() {
@@ -48,7 +46,7 @@ class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository)
     fun searchArticle(query: String) {
         d { "search $query" }
         // set state to loading
-        topHeadlineState.value = LoadingState
+        topHeadlineState.value = TopHeadlineState.LoadingState
 
         compositeDisposable.add(repo.getEverything(query)
                 .subscribeOn(Schedulers.io())
@@ -57,17 +55,17 @@ class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository)
     }
 
     private fun onSearchReceived(articles: List<Article>) {
-        topHeadlineState.value = ArticleLoadedState(articles)
+        topHeadlineState.value = TopHeadlineState.ArticleLoadedState(articles)
     }
 
     private fun onArticleReceived(articles: List<Article>) {
         val currentArticles = obtainCurrentData()
         currentArticles.addAll(articles)
-        topHeadlineState.value = ArticleLoadedState(currentArticles)
+        topHeadlineState.value = TopHeadlineState.ArticleLoadedState(currentArticles)
     }
 
     private fun onError(error: Throwable) {
-        topHeadlineState.value = ErrorState(error.localizedMessage)
+        topHeadlineState.value = TopHeadlineState.ErrorState(error.localizedMessage)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -78,7 +76,7 @@ class TopHeadlineViewModel @Inject constructor(private val repo: NewsRepository)
     private fun obtainCurrentData() = currentArticle
 
     fun restoreTopHeadlines() {
-        topHeadlineState.value = ArticleLoadedState(obtainCurrentData())
+        topHeadlineState.value = TopHeadlineState.ArticleLoadedState(obtainCurrentData())
     }
 
 

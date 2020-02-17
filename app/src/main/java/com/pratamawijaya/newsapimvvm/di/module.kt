@@ -11,20 +11,19 @@ import com.pratamawijaya.newsapimvvm.data.repository.NewsRepositoryImpl
 import com.pratamawijaya.newsapimvvm.ui.topheadline.TopHeadlineViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.ext.koin.androidApplication
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val appModule = module {
-    val context by lazy { androidApplication() }
     single { createOkHttpClient() }
     single { createWebService<NewsApiServices>(get(), "https://newsapi.org/v2/") }
     // db
-    single { Room.databaseBuilder(context, NewsAppDb::class.java, "newsapi.db").build() }
+    single { Room.databaseBuilder(androidContext(), NewsAppDb::class.java, "newsapi.db").build() }
     single { get<NewsAppDb>().articleDao() }
     // mapper
     single { ArticleMapper() }
@@ -37,13 +36,13 @@ fun createOkHttpClient(): OkHttpClient {
     val httpLoggingInterceptor = HttpLoggingInterceptor()
     httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
-    val API_KEY = "4b4df2ea3a154950852b6fda536cfb7f"
+    val k_e_y = "4b4df2ea3a154950852b6fda536cfb7f"
     return OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .readTimeout(60L, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor { chain ->
-                val req = chain.request().newBuilder().addHeader("X-Api-Key", API_KEY).build()
+                val req = chain.request().newBuilder().addHeader("X-Api-Key", k_e_y).build()
                 chain.proceed(req)
             }
             .build()

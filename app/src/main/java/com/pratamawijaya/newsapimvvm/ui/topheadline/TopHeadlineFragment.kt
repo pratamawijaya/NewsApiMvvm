@@ -92,7 +92,7 @@ class TopHeadlineFragment : Fragment(), ArticleItemListener {
     private val stateObserver = Observer<TopHeadlineState> { state ->
         when (state) {
 
-            is ArticleLoadedState -> {
+            is TopHeadlineState.ArticleLoadedState -> {
                 rvTopHeadline.toVisible()
                 loading.toGone()
 
@@ -104,14 +104,14 @@ class TopHeadlineFragment : Fragment(), ArticleItemListener {
                 }
             }
 
-            is LoadingState -> {
+            is TopHeadlineState.LoadingState -> {
                 // show Loading
                 loading.toVisible()
                 rvTopHeadline.toGone()
             }
 
             // show error
-            is ErrorState -> {
+            is TopHeadlineState.ErrorState -> {
                 e { "error ${state.errorMessage}" }
                 Toast.makeText(activity, "error ${state.errorMessage}", Toast.LENGTH_SHORT).show()
             }
