@@ -1,7 +1,7 @@
 package com.pratamawijaya.newsapimvvm.ui.topheadline.rvitem
 
+import com.bumptech.glide.Glide
 import com.pratamawijaya.newsapimvvm.R
-import com.pratamawijaya.newsapimvvm.di.module.GlideApp
 import com.pratamawijaya.newsapimvvm.domain.Article
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
@@ -27,7 +27,7 @@ class ArticleItem(private val article: Article,
         viewHolder.itemView.setOnClickListener { listener.onArticleSelected(article) }
 
         if (article.urlToImage.isNotBlank()) {
-            GlideApp.with(viewHolder.itemView.context)
+            Glide.with(viewHolder.itemView.context)
                     .load(article.urlToImage)
                     .into(viewHolder.itemView.imgArticle)
         }
