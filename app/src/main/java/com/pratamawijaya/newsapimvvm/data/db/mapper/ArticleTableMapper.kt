@@ -3,9 +3,8 @@ package com.pratamawijaya.newsapimvvm.data.db.mapper
 import com.pratamawijaya.newsapimvvm.data.model.ArticleTable
 import com.pratamawijaya.newsapimvvm.domain.Article
 import com.pratamawijaya.newsapimvvm.domain.Source
-import javax.inject.Inject
 
-open class ArticleTableMapper @Inject constructor() : DbMapper<ArticleTable, Article> {
+open class ArticleTableMapper : DbMapper<ArticleTable, Article> {
     override fun mapFromDB(table: ArticleTable): Article {
         return Article(
                 source = Source(table.sourceId, table.sourceName),

@@ -4,11 +4,10 @@ import com.pratamawijaya.newsapimvvm.data.model.ArticleModel
 import com.pratamawijaya.newsapimvvm.data.model.SourceModel
 import com.pratamawijaya.newsapimvvm.domain.Article
 import com.pratamawijaya.newsapimvvm.domain.Source
-import javax.inject.Inject
 
-open class ArticleMapper @Inject constructor() : EntityMapper<ArticleModel, Article> {
+open class ArticleMapper : EntityMapper<ArticleModel, Article> {
 
-    override fun mapFromEntity(entity: ArticleModel): Article {
+    override fun mapToDomain(entity: ArticleModel): Article {
         return Article(
                 author = entity.author ?: "",
                 publishedAt = entity.publishedAt,
@@ -32,5 +31,23 @@ open class ArticleMapper @Inject constructor() : EntityMapper<ArticleModel, Arti
                 publishedAt = domain.publishedAt,
                 author = domain.author
         )
+    }
+
+    override fun mapToListEntity(domains: List<Article>): List<ArticleModel> {
+        val listEntity = mutableListOf<ArticleModel>()
+        domains.map {
+            val articleEntity = mapToEntity(it)
+            listEntity.add(articleEntity)
+        }
+        return listEntity
+    }
+
+    override fun mapToListDomain(entities: List<ArticleModel>): List<Article> {
+        val listDomain = mutableListOf<Article>()
+        entities.map {
+            val articleDomain = mapToDomain(it)
+            listDomain.add(articleDomain)
+        }
+        return listDomain
     }
 }

@@ -3,7 +3,7 @@ package com.pratamawijaya.newsapimvvm
 import android.app.Application
 import com.pratamawijaya.newsapimvvm.di.appModule
 import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.koinApplication
+import org.koin.core.context.startKoin
 import timber.log.Timber
 
 class NewsApp : Application() {
@@ -11,7 +11,7 @@ class NewsApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        koinApplication {
+        startKoin {
             androidContext(this@NewsApp)
             modules(appModule)
         }

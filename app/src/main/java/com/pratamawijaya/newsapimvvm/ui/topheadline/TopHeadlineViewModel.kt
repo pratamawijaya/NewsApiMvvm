@@ -1,15 +1,14 @@
 package com.pratamawijaya.newsapimvvm.ui.topheadline
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
 import com.github.ajalt.timberkt.d
 import com.pratamawijaya.newsapimvvm.data.repository.NewsRepository
 import com.pratamawijaya.newsapimvvm.domain.Article
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 sealed class TopHeadlineState {
     object EmptyState : TopHeadlineState()
@@ -34,10 +33,15 @@ class TopHeadlineViewModel constructor(private val repo: NewsRepository) : ViewM
     }
 
     private fun getTopHeadlines() {
-        compositeDisposable.add(repo.getTopHeadlines()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onArticleReceived, this::onError))
+        viewModelScope.launch {
+            try {
+                val result = repo.getTopHeadlines()
+                Log.d("tag","debug ${result.size}")
+                topHeadlineState.postValue(TopHeadlineState.ArticleLoadedState(result))
+            } catch (ex: Exception) {
+                topHeadlineState.postValue(TopHeadlineState.ErrorState(ex.message ?: ""))
+            }
+        }
     }
 
     /**
