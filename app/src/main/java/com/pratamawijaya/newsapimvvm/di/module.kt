@@ -8,6 +8,7 @@ import com.pratamawijaya.newsapimvvm.data.db.mapper.ArticleTableMapper
 import com.pratamawijaya.newsapimvvm.data.mapper.ArticleMapper
 import com.pratamawijaya.newsapimvvm.data.repository.NewsRepository
 import com.pratamawijaya.newsapimvvm.data.repository.NewsRepositoryImpl
+import com.pratamawijaya.newsapimvvm.domain.usecase.GetTopHeadline
 import com.pratamawijaya.newsapimvvm.ui.topheadline.TopHeadlineViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,11 +26,18 @@ val appModule = module {
     // db
     single { Room.databaseBuilder(androidContext(), NewsAppDb::class.java, "newsapi.db").build() }
     single { get<NewsAppDb>().articleDao() }
-    single { get<NewsAppDb>().stringKeyValueDao()}
+    single { get<NewsAppDb>().stringKeyValueDao() }
     // mapper
     single { ArticleMapper() }
     single { ArticleTableMapper() }
-    single { NewsRepositoryImpl(get(), get(), get(), get(),get()) as NewsRepository }
+
+    //repo
+    single { NewsRepositoryImpl(get(), get(), get(), get(), get()) as NewsRepository }
+
+    //usecase
+    single { GetTopHeadline(get()) }
+
+    //viewmodel
     viewModel { TopHeadlineViewModel(get()) }
 }
 

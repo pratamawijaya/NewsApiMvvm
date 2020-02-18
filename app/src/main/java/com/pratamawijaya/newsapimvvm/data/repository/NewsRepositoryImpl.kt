@@ -44,8 +44,8 @@ class NewsRepositoryImpl constructor(private val service: NewsApiServices,
         }
     }
 
-    override suspend fun getTopHeadlines(): List<Article> {
-        val result = service.getTopHeadlines(country = "us", category = "technology")
+    override suspend fun getTopHeadlines(country: String, category: String): List<Article> {
+        val result = service.getTopHeadlines(country, category)
         return mapper.mapToListDomain(result.articles)
     }
 }

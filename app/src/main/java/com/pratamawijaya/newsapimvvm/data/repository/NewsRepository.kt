@@ -5,6 +5,6 @@ import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    suspend fun getTopHeadlines(): List<Article>
+    suspend fun getTopHeadlines(country: String, category: String): List<Article>
     fun getEverything(query: String): Single<List<Article>>
 }

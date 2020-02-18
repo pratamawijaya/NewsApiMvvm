@@ -1,13 +1,11 @@
 package com.pratamawijaya.newsapimvvm.ui.topheadline
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.github.ajalt.timberkt.d
-import com.pratamawijaya.newsapimvvm.data.repository.NewsRepository
 import com.pratamawijaya.newsapimvvm.domain.Article
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.pratamawijaya.newsapimvvm.domain.usecase.GetTopHeadline
+import com.pratamawijaya.newsapimvvm.utils.exceptions.Failure
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 sealed class TopHeadlineState {
@@ -17,7 +15,7 @@ sealed class TopHeadlineState {
     data class ErrorState(val errorMessage: String) : TopHeadlineState()
 }
 
-class TopHeadlineViewModel constructor(private val repo: NewsRepository) : ViewModel() {
+class TopHeadlineViewModel(private val topHeadlineUseCase: GetTopHeadline) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -34,13 +32,18 @@ class TopHeadlineViewModel constructor(private val repo: NewsRepository) : ViewM
 
     private fun getTopHeadlines() {
         viewModelScope.launch {
-            try {
-                val result = repo.getTopHeadlines()
-                topHeadlineState.postValue(TopHeadlineState.ArticleLoadedState(result))
-            } catch (ex: Exception) {
-                topHeadlineState.postValue(TopHeadlineState.ErrorState(ex.message ?: ""))
-            }
+            topHeadlineUseCase.execute(GetTopHeadline.Params(country = "us", category = "technology"))
+                    .fold(::handleFailure, ::handleSuccess)
         }
+    }
+
+    private fun handleSuccess(list: List<Article>) {
+        topHeadlineState.postValue(TopHeadlineState.ArticleLoadedState(list))
+    }
+
+    private fun handleFailure(failure: Failure) {
+        topHeadlineState.postValue(TopHeadlineState.ErrorState(failure.exception.localizedMessage
+                ?: ""))
     }
 
     /**
@@ -51,10 +54,10 @@ class TopHeadlineViewModel constructor(private val repo: NewsRepository) : ViewM
         // set state to loading
         topHeadlineState.value = TopHeadlineState.LoadingState
 
-        compositeDisposable.add(repo.getEverything(query)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSearchReceived, this::onError))
+//        compositeDisposable.add(repo.getEverything(query)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this::onSearchReceived, this::onError))
     }
 
     private fun onSearchReceived(articles: List<Article>) {
