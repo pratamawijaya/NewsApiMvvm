@@ -36,7 +36,6 @@ class TopHeadlineViewModel constructor(private val repo: NewsRepository) : ViewM
         viewModelScope.launch {
             try {
                 val result = repo.getTopHeadlines()
-                Log.d("tag","debug ${result.size}")
                 topHeadlineState.postValue(TopHeadlineState.ArticleLoadedState(result))
             } catch (ex: Exception) {
                 topHeadlineState.postValue(TopHeadlineState.ErrorState(ex.message ?: ""))
