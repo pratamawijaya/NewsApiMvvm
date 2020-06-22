@@ -1,4 +1,4 @@
-package com.pratamawijaya.newsapimvvm.data.db.mapper
+package com.pratamawijaya.newsapimvvm.data.local.db.mapper
 
 interface DbMapper<T, D> {
     fun mapFromDB(table: T): D

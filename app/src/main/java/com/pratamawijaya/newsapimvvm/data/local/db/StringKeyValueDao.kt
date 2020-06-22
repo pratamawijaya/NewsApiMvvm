@@ -1,4 +1,4 @@
-package com.pratamawijaya.newsapimvvm.data.db
+package com.pratamawijaya.newsapimvvm.data.local.db
 
 import androidx.annotation.NonNull
 import androidx.room.Dao

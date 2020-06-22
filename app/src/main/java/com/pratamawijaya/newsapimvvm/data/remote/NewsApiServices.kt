@@ -1,6 +1,6 @@
-package com.pratamawijaya.newsapimvvm.data
+package com.pratamawijaya.newsapimvvm.data.remote
 
-import com.pratamawijaya.newsapimvvm.data.response.TopHeadlineResponse
+import com.pratamawijaya.newsapimvvm.data.remote.response.TopHeadlineResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query

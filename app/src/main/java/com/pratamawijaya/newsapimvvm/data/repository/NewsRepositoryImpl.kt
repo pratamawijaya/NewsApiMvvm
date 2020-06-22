@@ -1,15 +1,13 @@
 package com.pratamawijaya.newsapimvvm.data.repository
 
 import com.github.ajalt.timberkt.d
-import com.pratamawijaya.newsapimvvm.data.NewsApiServices
-import com.pratamawijaya.newsapimvvm.data.db.ArticleDao
-import com.pratamawijaya.newsapimvvm.data.db.StringKeyValueDao
-import com.pratamawijaya.newsapimvvm.data.db.mapper.ArticleTableMapper
+import com.pratamawijaya.newsapimvvm.data.remote.NewsApiServices
+import com.pratamawijaya.newsapimvvm.data.local.db.ArticleDao
+import com.pratamawijaya.newsapimvvm.data.local.db.StringKeyValueDao
+import com.pratamawijaya.newsapimvvm.data.local.db.mapper.ArticleTableMapper
 import com.pratamawijaya.newsapimvvm.data.mapper.ArticleMapper
 import com.pratamawijaya.newsapimvvm.domain.Article
 import io.reactivex.Single
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 //https://proandroiddev.com/using-coroutines-and-flow-with-mvvm-architecture-796142dbfc2f
 

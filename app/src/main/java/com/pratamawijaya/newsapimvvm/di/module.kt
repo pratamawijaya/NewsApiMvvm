@@ -2,9 +2,9 @@ package com.pratamawijaya.newsapimvvm.di
 
 import androidx.room.Room
 import com.google.gson.GsonBuilder
-import com.pratamawijaya.newsapimvvm.data.NewsApiServices
-import com.pratamawijaya.newsapimvvm.data.db.NewsAppDb
-import com.pratamawijaya.newsapimvvm.data.db.mapper.ArticleTableMapper
+import com.pratamawijaya.newsapimvvm.data.remote.NewsApiServices
+import com.pratamawijaya.newsapimvvm.data.local.db.NewsAppDb
+import com.pratamawijaya.newsapimvvm.data.local.db.mapper.ArticleTableMapper
 import com.pratamawijaya.newsapimvvm.data.mapper.ArticleMapper
 import com.pratamawijaya.newsapimvvm.data.repository.NewsRepository
 import com.pratamawijaya.newsapimvvm.data.repository.NewsRepositoryImpl

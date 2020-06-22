@@ -1,4 +1,4 @@
-package com.pratamawijaya.newsapimvvm.data.db
+package com.pratamawijaya.newsapimvvm.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

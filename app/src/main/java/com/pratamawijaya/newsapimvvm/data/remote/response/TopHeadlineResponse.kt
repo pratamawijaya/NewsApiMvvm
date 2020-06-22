@@ -1,4 +1,4 @@
-package com.pratamawijaya.newsapimvvm.data.response
+package com.pratamawijaya.newsapimvvm.data.remote.response
 
 import com.pratamawijaya.newsapimvvm.data.model.ArticleModel
 

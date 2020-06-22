@@ -1,4 +1,4 @@
-package com.pratamawijaya.newsapimvvm.data.db.mapper
+package com.pratamawijaya.newsapimvvm.data.local.db.mapper
 
 import com.pratamawijaya.newsapimvvm.data.model.ArticleTable
 import com.pratamawijaya.newsapimvvm.domain.Article
